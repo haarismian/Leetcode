@@ -273,3 +273,45 @@ let addTwoNumbers = function(l1, l2) {
     return dummyHead.next;
 };
 ```
+# Longest Palindromic Substring
+Given a string s, return the longest palindromic substring in s.
+
+
+
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+
+    if(s.length <1 || s === null){
+        return ''
+    }
+    
+    let longest = ''
+    
+    for (i=0;i<s.length;i++){
+        // In an odd lettered palindrome you have only one character as the center
+        let odd = expandFromCenter(s,i,i)
+        // in an even lettered palindrome you have 2 characters as the center so we will pass the current character and the one right before
+        let even = expandFromCenter(s,i-1,i)
+        
+        longest = (odd.length>longest.length) ? odd : longest
+        longest = (even.length>longest.length) ? even : longest
+    }
+    return longest
+    
+};
+    
+expandFromCenter = (string, left, right) => {
+    let adjuster = 0
+    
+    while (string[left-adjuster] && string[right+adjuster] && string[left-adjuster] == string[right+adjuster] ){
+        adjuster++
+    }
+    adjuster--
+    //include the +1 because slice goes up to but doesn't include the second argument
+    return string.slice(left-adjuster,right+adjuster+1)
+}
+```
